@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Car">
+    <Key>
+      <PropertyRef Name="Car_id" />
+    </Key>
+    <Property Name="Car_id" Type="int" Nullable="false" />
+    <Property Name="Car_name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Car_date" Type="date" />
+    <Property Name="Car_type" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Order_id" />
+    </Key>
+    <Property Name="Order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Booking_date" Type="date" Nullable="false" />
+    <Property Name="Return_date" Type="date" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="Car_id" Type="int" Nullable="false" />
+    <Property Name="User_id" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__Order__Car_id__3B75D760">
+    <End Role="Car" Type="Self.Car" Multiplicity="1" />
+    <End Role="Order" Type="Self.Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Car">
+        <PropertyRef Name="Car_id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Car_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ModelStoreContainer">
+    <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Order__Car_id__3B75D760" Association="Self.FK__Order__Car_id__3B75D760">
+      <End Role="Car" EntitySet="Car" />
+      <End Role="Order" EntitySet="Order" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

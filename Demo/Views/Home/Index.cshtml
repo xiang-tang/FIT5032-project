@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+    <div class="jumbotron">
+        <h1>Let Drive </h1>
+        <p class="lead">This is a car rental Web</p>
+        @if (!User.Identity.IsAuthenticated) { 
+        <p><a href="/Account/Register" class="btn btn-grouop btn-lg">Register &raquo;</a></p>
+        <p><a href="/Account/Login" class="btn btn-group btn-lg">Login &raquo;</a></p>
+        }
+    </div>
+
+    <div class="row">
+        @if (User.Identity.IsAuthenticated)
+        {
+    <div class="col-md-4">
+        <h2>Selecing  Car</h2>
+        <p>
+            Car Information
+        </p>
+        <p><a class="btn btn-default" href="/Cars">Car &raquo;</a></p>
+    </div>
+        <div class="col-md-4">
+            <h2>Your Order List</h2>
+            <p>Operate Your Order</p>
+            <p><a class="btn btn-default" href="/Orders">Order List &raquo;</a></p>
+        </div>
+        }
+    </div>

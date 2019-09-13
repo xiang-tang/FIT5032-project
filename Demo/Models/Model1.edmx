@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="Car_id" />
+          </Key>
+          <Property Name="Car_id" Type="int" Nullable="false" />
+          <Property Name="Car_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Car_date" Type="date" />
+          <Property Name="Car_type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_id" />
+          </Key>
+          <Property Name="Order_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Booking_date" Type="date" Nullable="false" />
+          <Property Name="Return_date" Type="date" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Car_id" Type="int" Nullable="false" />
+          <Property Name="User_id" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Order__Car_id__3B75D760">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Car_id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Car_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Car" EntityType="Self.Car" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Order" EntityType="Self.Order" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Order__Car_id__3B75D760" Association="Self.FK__Order__Car_id__3B75D760">
+            <End Role="Car" EntitySet="Car" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Car">
+          <Key>
+            <PropertyRef Name="Car_id" />
+          </Key>
+          <Property Name="Car_id" Type="Int32" Nullable="false" />
+          <Property Name="Car_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Car_date" Type="DateTime" Precision="0" />
+          <Property Name="Car_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Order__Car_id__3B75D760" FromRole="Car" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="Order_id" />
+          </Key>
+          <Property Name="Order_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Booking_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Return_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Car_id" Type="Int32" Nullable="false" />
+          <Property Name="User_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Car" Relationship="Self.FK__Order__Car_id__3B75D760" FromRole="Order" ToRole="Car" />
+        </EntityType>
+        <Association Name="FK__Order__Car_id__3B75D760">
+          <End Role="Car" Type="Self.Car" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Car">
+              <PropertyRef Name="Car_id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="Car_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cars" EntityType="Self.Car" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <AssociationSet Name="FK__Order__Car_id__3B75D760" Association="Self.FK__Order__Car_id__3B75D760">
+            <End Role="Car" EntitySet="Cars" />
+            <End Role="Order" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Cars">
+            <EntityTypeMapping TypeName="Model.Car">
+              <MappingFragment StoreEntitySet="Car">
+                <ScalarProperty Name="Car_id" ColumnName="Car_id" />
+                <ScalarProperty Name="Car_name" ColumnName="Car_name" />
+                <ScalarProperty Name="Car_date" ColumnName="Car_date" />
+                <ScalarProperty Name="Car_type" ColumnName="Car_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="Model.Order">
+              <MappingFragment StoreEntitySet="Order">
+                <ScalarProperty Name="Order_id" ColumnName="Order_id" />
+                <ScalarProperty Name="Booking_date" ColumnName="Booking_date" />
+                <ScalarProperty Name="Return_date" ColumnName="Return_date" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Car_id" ColumnName="Car_id" />
+                <ScalarProperty Name="User_id" ColumnName="User_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
